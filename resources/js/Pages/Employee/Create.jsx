@@ -1,0 +1,515 @@
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import SelectInput from "@/Components/SelectInput";
+import TextInput from "@/Components/TextInput";
+import Authenticated from "@/Layouts/AuthenticatedLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+import React, { useState } from "react";
+
+export default function Create({
+    auth,
+    employee_types,
+    districts,
+    designations,
+    qualifications,
+    financials,
+    programs,
+}) {
+    const [facilities, setFacilities] = useState([]);
+    const { data, setData, post, errors, reset, progress } = useForm({
+        name: "",
+        father_name: "",
+        husband_name: "",
+        gender: "",
+        doa: "",
+        doj: "",
+        cnic: "",
+        station: "",
+        employee_type_id: "",
+        facility_id: "",
+        district_id: "",
+        designation_id: "",
+        qualification_id: "",
+        financial_year_id: "",
+        program_id: "",
+    });
+
+    const handleDistrictChange = async (e) => {
+        const districtId = e.target.value;
+        setData("district_id", districtId);
+
+        if (districtId) {
+            try {
+                const response = await axios.get(
+                    `/districts-facilities/${districtId}`
+                );
+                setFacilities(response.data);
+            } catch (error) {
+                console.error(
+                    "There was an error fetching the tehsils!",
+                    error
+                );
+            }
+        } else {
+            setFacilities([]);
+        }
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        post(route("employee.store"));
+    };
+    return (
+        <Authenticated
+            user={auth.user}
+            header={
+                <div className="flex justify-between items-center">
+                    <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        Create New Employee
+                    </h2>
+                </div>
+            }
+        >
+            <Head title="Employees" />
+
+            <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 text-gray-900 dark:text-gray-100 ">
+                            <form
+                                action=""
+                                onSubmit={onSubmit}
+                                className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg "
+                            >
+                                <div className="w-full flex flex-row flex-wrap">
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="employee_name"
+                                            value="Employee Name"
+                                        />
+                                        <TextInput
+                                            id="employee_name"
+                                            type="text"
+                                            name="name"
+                                            value={data.name}
+                                            className="mt-1 w-80"
+                                            isFocused={true}
+                                            onChange={(e) =>
+                                                setData("name", e.target.value)
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.name}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="father_name"
+                                            value="Father Name"
+                                        />
+                                        <TextInput
+                                            id="father_name"
+                                            type="text"
+                                            name="father_name"
+                                            value={data.father_name}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "father_name",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.father_name}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="husband_name"
+                                            value="Husband Name"
+                                        />
+                                        <TextInput
+                                            id="husband_name"
+                                            type="text"
+                                            name="husband_name"
+                                            value={data.husband_name}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "husband_name",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.husband_name}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="cnic"
+                                            value="CNIC"
+                                        />
+                                        <TextInput
+                                            id="cnic"
+                                            type="text"
+                                            name="cnic"
+                                            value={data.cnic}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData("cnic", e.target.value)
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.cnic}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="gender"
+                                            value="Gender"
+                                        />
+                                        <SelectInput
+                                            id="gender"
+                                            name="gender"
+                                            value={data.gender}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "gender",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>Select Gender</option>
+                                            <option value={"Male"}>Male</option>
+                                            <option value={"Female"}>
+                                                Female
+                                            </option>
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.gender}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="doa"
+                                            value="Date of Appointment"
+                                        />
+                                        <TextInput
+                                            id="doa"
+                                            type="date"
+                                            name="gender"
+                                            value={data.doa}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData("doa", e.target.value)
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.doa}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="doj"
+                                            value="Date of Joining"
+                                        />
+                                        <TextInput
+                                            id="doj"
+                                            type="date"
+                                            name="doj"
+                                            value={data.doj}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData("doj", e.target.value)
+                                            }
+                                        />
+                                        <InputError
+                                            message={errors.doa}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="program"
+                                            value="Program"
+                                        />
+                                        <SelectInput
+                                            id="program"
+                                            name="program_id"
+                                            value={data.program_id}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "program_id",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>Select Program</option>
+                                            {programs.map((program) => (
+                                                <option value={program.id}>
+                                                    {program.title}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.program_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="station"
+                                            value="Duty Station"
+                                        />
+                                        <SelectInput
+                                            id="station"
+                                            name="station"
+                                            value={data.station}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "station",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>Select Station</option>
+                                            <option value={"Provincial"}>
+                                                Provincial
+                                            </option>
+                                            <option value={"District"}>
+                                                District
+                                            </option>
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.station}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="employee_type"
+                                            value="Employee Type"
+                                        />
+
+                                        <SelectInput
+                                            id="employee_type"
+                                            name="employee_type"
+                                            value={data.employee_type_id}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "employee_type_id",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>
+                                                Select Employee Type
+                                            </option>
+                                            {employee_types.map(
+                                                (employee_type) => (
+                                                    <option
+                                                        value={employee_type.id}
+                                                    >
+                                                        {employee_type.title}
+                                                    </option>
+                                                )
+                                            )}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.employee_type_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="district"
+                                            value="District"
+                                        />
+
+                                        <SelectInput
+                                            id="district"
+                                            name="district_id"
+                                            value={data.district_id}
+                                            className="mt-1 w-80"
+                                            onChange={handleDistrictChange}
+                                        >
+                                            <option>Select District</option>
+                                            {districts.map((district) => (
+                                                <option value={district.id}>
+                                                    {district.title}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.district_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="facility"
+                                            value="Facility"
+                                        />
+
+                                        <SelectInput
+                                            id="facility"
+                                            name="facility"
+                                            value={data.facility_id}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "facility_id",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>
+                                                Select District First
+                                            </option>
+                                            {facilities.map((facility) => (
+                                                <option value={facility.id}>
+                                                    {facility.title}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.facility_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="designation"
+                                            value="Designation"
+                                        />
+
+                                        <SelectInput
+                                            id="designation"
+                                            name="designation_id"
+                                            value={data.designation_id}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "designation_id",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>Select Designation</option>
+                                            {designations.map((designation) => (
+                                                <option value={designation.id}>
+                                                    {designation.title}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.designation_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="qualification"
+                                            value="Highest Qualification"
+                                        />
+
+                                        <SelectInput
+                                            id="qualification"
+                                            name="qualification_id"
+                                            value={data.qualification_id}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "qualification_id",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>
+                                                Select Qualification
+                                            </option>
+                                            {qualifications.map(
+                                                (qualification) => (
+                                                    <option
+                                                        value={qualification.id}
+                                                    >
+                                                        {qualification.title}
+                                                    </option>
+                                                )
+                                            )}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.qualification_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="financial_year"
+                                            value="Financial year"
+                                        />
+
+                                        <SelectInput
+                                            id="financial_year"
+                                            name="financial_year_id"
+                                            value={data.financial_year_id}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "financial_year_id",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>
+                                                Select Financial year
+                                            </option>
+                                            {financials.map((financial) => (
+                                                <option value={financial.id}>
+                                                    {financial.title}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.financial_year_id}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <div className="mt-9 text-right">
+                                        <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                                            Add Employee
+                                        </button>
+                                        <Link
+                                            href={route("employee.index")}
+                                            className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200 mr-2"
+                                        >
+                                            Cancel
+                                        </Link>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Authenticated>
+    );
+}

@@ -1,20 +1,59 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import Progress from "@/Components/Progress";
+import Statistic from "@/Components/Statistic";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head } from "@inertiajs/react";
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({
+    auth,
+    employeeCounts,
+    totalEmployees,
+    verifiedEmployees,
+    districtData,
+}) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>}
+            header={
+                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    Dashboard
+                </h2>
+            }
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
-                    </div>
-                </div>
+            <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex flex-auto justify-between  p-3 m-2">
+                <Statistic
+                    title="Total Employees"
+                    value={totalEmployees}
+                    message="Over all Employees"
+                />
+
+                {employeeCounts.map((count) => (
+                    <Statistic
+                        title={count.title}
+                        value={count.total}
+                        message="Employees"
+                    />
+                ))}
+            </div>
+            <div className="flex justify-center bg-white p-7 m-2">
+                <Progress
+                    value={(verifiedEmployees / totalEmployees) * 100}
+                    district={"Over All Verifications"}
+                />
+            </div>
+
+            <div className="flex justify-between flex-wrap bg-white p-7 m-2">
+                {districtData.map((data, i) => (
+                    <Progress
+                        key={i}
+                        value={
+                            (data.verified_employees / data.total_employees) *
+                            100
+                        }
+                        district={data.district_name}
+                    />
+                ))}
             </div>
         </AuthenticatedLayout>
     );
