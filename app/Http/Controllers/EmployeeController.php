@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
-use App\Http\Resources\EmployeeResource;
-use App\Models\Designation;
-use App\Models\District;
-use App\Models\EmployeeType;
-use App\Models\Facility;
-use App\Models\FinancialYear;
+use App\Models\Tehsil;
 use App\Models\Program;
+use App\Models\District;
+use App\Models\Employee;
+use App\Models\Facility;
+use App\Models\Designation;
+use App\Models\EmployeeType;
+use App\Models\UnionCouncil;
+use App\Models\FinancialYear;
 use App\Models\Qualification;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\DistrictResource;
+use App\Http\Resources\EmployeeResource;
+use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 
 class EmployeeController extends Controller
 {
@@ -22,6 +25,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+
         $query    = Employee::query();
         $sortField = request("sort_field",'created_at');
         $sortDirection = request("sort_direction","desc");
@@ -111,11 +115,17 @@ class EmployeeController extends Controller
     {
         $employee_type = EmployeeType::all();
         $districts  = District::all();
-        $facilities  = Facility::all();
+
         $designations = Designation::all();
         $qualifications = Qualification::all();
         $financial_year = FinancialYear::all();
         $programs = Program::all();
+        $atehsils = Tehsil::where('district_id',$employee->district_id)->get();
+        $aunion_councils = UnionCouncil::where('tehsil_id',$employee->appointed_tehsil)->get();
+        $afacilities  = Facility::where('union_council',$employee->appointed_union_council )->get();
+        $ctehsils = Tehsil::where('district_id',$employee->current_district)->get();
+        $cunion_councils = UnionCouncil::where('tehsil_id',$employee->current_tehsil)->get();
+        $cfacilities  = Facility::where('union_council',$employee->current_union_council )->get();
 
         return inertia('Employee/Edit',[
             'employee' => new EmployeeResource($employee),
@@ -124,8 +134,13 @@ class EmployeeController extends Controller
             'designations' => $designations,
             'qualifications' => $qualifications,
             'financials'=> $financial_year,
-            'facilities' => $facilities,
-            'programs' => $programs
+            'afacilities' => $afacilities,
+            'programs' => $programs,
+            'atehsils' => $atehsils,
+            'aunion_councils' => $aunion_councils,
+            'ctehsils' => $ctehsils,
+            'cunion_councils' => $cunion_councils,
+            'cfacilities' => $cfacilities
         ]);
     }
 
@@ -154,8 +169,20 @@ class EmployeeController extends Controller
           }
     }
 
-    public function facilities($district){
-        $facilities = Facility::where('district_id', $district)->get();
+    public function tehsils($district){
+        $tehsils = Tehsil::where('district_id', $district)->get();
+        return response()->json($tehsils);
+    }
+    public function councils($tehsil){
+        $councils = UnionCouncil::where('tehsil_id', $tehsil)->get();
+        return response()->json($councils);
+    }
+    public function facilities($council){
+        $facilities = Facility::where('union_council', $council)->get();
         return response()->json($facilities);
+    }
+    public function employees($facility){
+        $employees = Employee::where('current_facility', $facility)->get();
+        return response()->json($employees);
     }
 }

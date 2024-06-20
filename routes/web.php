@@ -82,7 +82,10 @@ Route::middleware('auth')->group(function () {
     Route::get('users',[RegisteredUserController::class, 'index'])->name('users');
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
-    Route::get('districts-facilities/{district}',[EmployeeController::class,'facilities'])->name('facilities');
+    Route::get('districts-tehsils/{district}',[EmployeeController::class,'tehsils'])->name('tehsils');
+    Route::get('tehsil-councils/{tehsil}',[EmployeeController::class,'councils'])->name('councils');
+    Route::get('council-facilites/{council}',[EmployeeController::class,'facilities'])->name('facilities');
+    Route::get('facility-employee/{facility}',[EmployeeController::class,'employees'])->name('employees');
 });
 
 require __DIR__.'/auth.php';

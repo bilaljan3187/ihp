@@ -35,7 +35,21 @@ class StoreEmployeeRequest extends FormRequest
             'designation_id' => ['required'],
             'qualification_id' => ['required'],
             'financial_year_id' => ['required'],
-            'program_id' => 'required'
-        ];
+            'program_id' => 'required',
+            'domicile' => 'required',
+            'dob' => 'required',
+            'account_no' => ['required','integer'],
+            'contact_no' => 'required',
+            'address' => 'required',
+            'appointed_tehsil'=> "required",
+            'appointed_union_council'=>"required",
+            'current_district'=>"required",
+            'current_tehsil'=>"required",
+            'current_union_council'=>"required",
+            'current_facility'=>"required",
+            'reporting_officer'=>"required",
+            'appointed_catchment_area'=>"required",
+            'current_catchment_area'=>"required"
+         ];
     }
 }

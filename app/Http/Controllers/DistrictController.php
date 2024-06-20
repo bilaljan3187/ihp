@@ -18,11 +18,9 @@ class DistrictController extends Controller
         $query    = District::query();
         $sortField = request("sort_field",'created_at');
         $sortDirection = request("sort_direction","desc");
-
         if(request('title')){
             $query->where('title','like','%'.request('title').'%');
         }
-
         $districts = $query->orderBy($sortField,$sortDirection)->paginate(10)->onEachSide(1);
     //    dd(ProgramResource::collection($programs));
         return inertia('District/Index',[
@@ -79,7 +77,6 @@ class DistrictController extends Controller
         $data['updated_by'] = Auth::user()->id;
         $district->update($data);
         return to_route('district.index')->with('success','District Updated');
-
     }
 
     /**
@@ -93,8 +90,5 @@ class DistrictController extends Controller
           } catch (\Illuminate\Database\QueryException $e) {
             return to_route('district.index')->with('success','District Can not be deleted as this district is used in other sections');
           }
-
-
-
     }
 }

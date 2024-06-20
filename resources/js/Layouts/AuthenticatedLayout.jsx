@@ -335,20 +335,20 @@ export default function Authenticated({ user, header, children }) {
 
                 {header && (
                     <header className="bg-white dark:bg-gray-800 shadow">
-                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        <div className=" mx-auto py-6 px-4 sm:px-6 lg:px-8">
                             {header}
                         </div>
                     </header>
                 )}
                 <div className="overflow-hidden">
-                    <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 flex">
+                    <div className=" mx-auto px-4 sm:px-6 md:px-8 flex">
                         {/* left slider */}
                         {/* <div className="hidden lg:block  z-20 inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-[19rem] pb-10  overflow-y-auto">
                             <Navbar className="bg-white dark:bg-slate-900" />
                         </div> */}
                         {/* main section */}
                         <div className="w-full">
-                            <main className="w-full pt-10 ">{children}</main>
+                            <main className="w-full pt-2 ">{children}</main>
                         </div>
                     </div>
                 </div>

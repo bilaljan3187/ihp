@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,7 +15,6 @@ class EmployeeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -35,7 +35,19 @@ class EmployeeResource extends JsonResource
             'qualification' =>  new QualificationResource($this->qualification),
             'createdBy'=>new UserResource($this->createdBy),
             'updatedBy'=>new UserResource($this->updatedBy),
-            'program' => new ProgramResource($this->program)
+            'program' => new ProgramResource($this->program),
+            'dob' => $this->dob,
+            'contact_no' =>$this->contact_no,
+            'account_no' =>$this->account_no,
+            'address' =>$this->address,
+            'domicile' => new DistrictResource($this->domicilee),
+            'reporting_officer' => new UserResource($this->reporting_officerr),
+            'appointed_tehsil' => new TehsilResource($this->appointed_tehsill),
+            'appointed_union_council' => new UserResource($this->appointed_union_councill),
+            'current_district' => new DistrictResource($this->current_districtt),
+            'current_tehsil' => new TehsilResource($this->current_tehsill),
+            'current_union_council' => new UnionCouncilResource($this->current_union_councill),
+            'current_faculty' => new FacilityResource($this->current_faciltyy),
         ];
 
     }
