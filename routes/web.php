@@ -20,6 +20,8 @@ use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TehsilController;
+use App\Http\Controllers\UnionCouncilController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -80,6 +82,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('designation',DesignationController::class);
     Route::resource('employeetype',EmployeeTypeController::class);
     Route::resource('district',DistrictController::class);
+    Route::resource('tehsil',TehsilController::class);
+    Route::resource('uc',UnionCouncilController::class);
     Route::get('users',[RegisteredUserController::class, 'index'])->name('users');
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);

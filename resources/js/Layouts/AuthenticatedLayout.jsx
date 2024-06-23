@@ -76,6 +76,20 @@ export default function Authenticated({ user, header, children }) {
                                         Districts
                                     </NavLink>
                                     <NavLink
+                                        href={route("tehsil.index")}
+                                        active={route().current("tehsil.index")}
+                                    >
+                                        {" "}
+                                        Tehsils
+                                    </NavLink>
+                                    <NavLink
+                                        href={route("uc.index")}
+                                        active={route().current("uc.index")}
+                                    >
+                                        {" "}
+                                        UCs
+                                    </NavLink>
+                                    <NavLink
                                         href={route("facility.index")}
                                         active={route().current(
                                             "facility.index"
