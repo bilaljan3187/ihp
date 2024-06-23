@@ -21,10 +21,13 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('employee');
+
+
         return [
             'name' => ['required'],
             'father_name' => ['required'],
-            'cnic' => ['required'],
+            'cnic' => 'required|unique:employees,cnic,'.$id['id'],
             'gender' => ['required'],
             'doa' => ['required'],
             'doj' => ['required'],
@@ -36,7 +39,21 @@ class UpdateEmployeeRequest extends FormRequest
             'qualification_id' => ['required'],
             'financial_year_id' => ['required'],
             'program_id' => 'required',
-            'verified' => 'required'
+            'domicile' => 'required',
+            'dob' => 'required',
+            'account_no' => ['required','integer'],
+            'contact_no' => 'required',
+            'address' => 'required',
+            'appointed_tehsil'=> "required",
+            'appointed_union_council'=>"required",
+            'current_district'=>"required",
+            'current_tehsil'=>"required",
+            'current_union_council'=>"required",
+            'current_facility'=>"required",
+            'reporting_officer'=>"required",
+            'appointed_catchment_area'=>"required",
+            'current_catchment_area'=>"required",
+            'verified'=>"required"
         ];
     }
 }

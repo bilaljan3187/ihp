@@ -17,6 +17,8 @@ use App\Http\Resources\DistrictResource;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Resources\UserResource;
+use App\Models\Document;
 
 class EmployeeController extends Controller
 {
@@ -78,8 +80,8 @@ class EmployeeController extends Controller
         $data = $request->validated();
         $data['added_by'] = Auth::user()->id;
         $data['updated_by'] = Auth::user()->id;
-        Employee::create($data);
-        return to_route('employee.index')->with('success','Employee Added');
+        $employee = Employee::create($data);
+        return to_route('employee.index', ['cnic' => $employee->cnic])->with('success','Employee Added');
 
     }
 
@@ -95,7 +97,25 @@ class EmployeeController extends Controller
         $qualifications = Qualification::all();
         $financial_year = FinancialYear::all();
         $programs = Program::all();
-
+        $atehsils = Tehsil::where('district_id',$employee->district_id)->get();
+        $aunion_councils = UnionCouncil::where('tehsil_id',$employee->appointed_tehsil)->get();
+        $afacilities  = Facility::where('union_council',$employee->appointed_union_council )->get();
+        $ctehsils = Tehsil::where('district_id',$employee->current_district)->get();
+        $cunion_councils = UnionCouncil::where('tehsil_id',$employee->current_tehsil)->get();
+        $cfacilities  = Facility::where('union_council',$employee->current_union_council )->get();
+        $officers  = Employee::where('current_facility',$employee->current_facility )->get();
+        $documents = Document::where('employee',$employee->id)->get();
+        $documents = json_decode($documents, true);
+        $documents = array_map(function($document) {
+            return [
+                'id' => $document['id'],
+                'document' => $document['document'],
+                'file' => asset('storage/' . $document['file']),
+                'remarks' => $document['remarks'],
+                // 'added_by' => new UserResource($document['added_by'])
+            ];
+        }, $documents);
+// dd($documents);
         return inertia('Employee/View',[
             'employee' => new EmployeeResource($employee),
             'employee_types' => $employee_type,
@@ -103,8 +123,15 @@ class EmployeeController extends Controller
             'designations' => $designations,
             'qualifications' => $qualifications,
             'financials'=> $financial_year,
-            'facilities' => $facilities,
-            'programs' => $programs
+            'afacilities' => $facilities,
+            'programs' => $programs,
+            'atehsils' => $atehsils,
+            'aunion_councils' => $aunion_councils,
+            'ctehsils' => $ctehsils,
+            'cunion_councils' => $cunion_councils,
+            'cfacilities' => $cfacilities,
+            'officers' => $officers,
+            'documents' => $documents
         ]);
     }
 
@@ -126,6 +153,8 @@ class EmployeeController extends Controller
         $ctehsils = Tehsil::where('district_id',$employee->current_district)->get();
         $cunion_councils = UnionCouncil::where('tehsil_id',$employee->current_tehsil)->get();
         $cfacilities  = Facility::where('union_council',$employee->current_union_council )->get();
+        $officers  = Employee::where('current_facility',$employee->current_facility )->get();
+
 
         return inertia('Employee/Edit',[
             'employee' => new EmployeeResource($employee),
@@ -140,7 +169,8 @@ class EmployeeController extends Controller
             'aunion_councils' => $aunion_councils,
             'ctehsils' => $ctehsils,
             'cunion_councils' => $cunion_councils,
-            'cfacilities' => $cfacilities
+            'cfacilities' => $cfacilities,
+            'officers' => $officers
         ]);
     }
 
@@ -149,10 +179,12 @@ class EmployeeController extends Controller
      */
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
+
         $data = $request->validated();
+        $data['husband_name'] = $request->husband_name;
         $data['updated_by'] = Auth::user()->id;
         $employee->update($data);
-        return to_route('employee.index')->with('success','Employee Updated');
+        return to_route('employee.index', ['cnic' => $employee->cnic])->with('success','Employee Updated');
 
     }
 

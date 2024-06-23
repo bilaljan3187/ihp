@@ -47,7 +47,9 @@ class EmployeeResource extends JsonResource
             'current_district' => new DistrictResource($this->current_districtt),
             'current_tehsil' => new TehsilResource($this->current_tehsill),
             'current_union_council' => new UnionCouncilResource($this->current_union_councill),
-            'current_faculty' => new FacilityResource($this->current_faciltyy),
+            'current_facility' => new FacilityResource($this->current_facilityy),
+            'appointed_catchment_area' => $this->appointed_catchment_area,
+            'current_catchment_area' => $this->current_catchment_area
         ];
 
     }

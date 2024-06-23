@@ -22,6 +22,7 @@ export default function Edit({
     ctehsils,
     cunion_councils,
     cfacilities,
+    officers,
 }) {
     const [appointedfacilities, setAppointedfacilities] = useState(afacilities);
     const [appointtehsils, setAppointtehsils] = useState(atehsils);
@@ -29,7 +30,7 @@ export default function Edit({
     const [currentfacilities, setCurrentfacilities] = useState(cfacilities);
     const [currenttehsils, setCurrenttehsils] = useState(ctehsils);
     const [currentcouncils, setCurrentcouncils] = useState(cunion_councils);
-    const [officers, setOfficers] = useState([]);
+    const [cofficers, setCofficers] = useState(officers);
     const { data, setData, post, errors, reset, progress } = useForm({
         name: employee.data.name,
         father_name: employee.data.father_name,
@@ -38,13 +39,14 @@ export default function Edit({
         cnic: employee.data.cnic,
         program_id: employee.data.program.id,
         dob: employee.data.dob,
-        domicile: employee.data.domicile,
+        domicile: employee.data.domicile.id,
         employee_type_id: employee.data.employee_type_id.id,
         qualification_id: employee.data.qualification.id,
         financial_year_id: employee.data.financial_year.id,
         contact_no: employee.data.contact_no,
         account_no: employee.data.account_no,
         address: employee.data.address,
+        verified: employee.data.verified,
 
         designation_id: employee.data.designation.id,
         doa: employee.data.doa,
@@ -57,15 +59,20 @@ export default function Edit({
         current_district: employee.data.current_district.id,
         current_tehsil: employee.data.current_tehsil.id,
         current_union_council: employee.data.current_union_council.id,
-        current_facility: employee.data.current_facility,
-        reporting_officer: employee.data.reporting_officer,
+        current_facility: employee.data.current_facility.id,
+        reporting_officer: employee.data.reporting_officer.id,
         appointed_catchment_area: employee.data.appointed_catchment_area,
         current_catchment_area: employee.data.current_catchment_area,
+        _method: "PUT",
     });
 
     const handleDistrictChange = async (e) => {
         setAppointcouncils([]); // reset union council list
-        setFacilities([]); // reset union facilities list
+        setAppointedfacilities([]); // reset union facilities list
+        setData("appointed_tehsil", null);
+        alert(appointed_tehsil);
+        setData("appointed_union_council", null);
+        setData("facility_id", null);
         const districtId = e.target.value;
         setData("district_id", districtId);
         if (districtId) {
@@ -114,7 +121,7 @@ export default function Edit({
                 const response = await axios.get(
                     `/council-facilites/${councilId}`
                 );
-                setFacilities(response.data);
+                setAppointedfacilities(response.data);
             } catch (error) {
                 console.error(
                     "There was an error fetching the Facilities!",
@@ -122,14 +129,14 @@ export default function Edit({
                 );
             }
         } else {
-            setFacilities([]);
+            setAppointedfacilities([]);
         }
     };
     // -----------------------------
     const handleCurrentDistrictChange = async (e) => {
         setCurrentcouncils([]); // reset union council list
         setCurrentfacilities([]); // reset union facilities list
-        setOfficers([]); // reset officers list
+        setCofficers([]); // reset officers list
         const districtId = e.target.value;
         setData("current_district", districtId);
         if (districtId) {
@@ -151,7 +158,7 @@ export default function Edit({
 
     const handleCurrentTehsilChange = async (e) => {
         setCurrentcouncils([]); // reset union council list
-        setOfficers([]); // reset officers list
+        setCofficers([]); // reset officers list
         const tehsilId = e.target.value;
         setData("current_tehsil", tehsilId);
         if (tehsilId) {
@@ -172,7 +179,7 @@ export default function Edit({
     };
 
     const handleCurrentCouncilChange = async (e) => {
-        setOfficers([]); // reset officers list
+        setCofficers([]); // reset officers list
 
         const councilId = e.target.value;
         setData("current_union_council", councilId);
@@ -201,7 +208,7 @@ export default function Edit({
                 const response = await axios.get(
                     `/facility-employee/${facilityId}`
                 );
-                setOfficers(response.data);
+                setCofficers(response.data);
             } catch (error) {
                 console.error(
                     "There was an error fetching the employees!",
@@ -209,14 +216,14 @@ export default function Edit({
                 );
             }
         } else {
-            setOfficers([]);
+            setCofficers([]);
         }
     };
 
     // -----------------------------
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route("employee.store"));
+        post(route("employee.update", employee.data.id));
     };
     return (
         <Authenticated
@@ -230,7 +237,7 @@ export default function Edit({
             }
         >
             <Head title="Employees" />
-            {JSON.stringify(ctehsils)}
+            {/* {JSON.stringify(employee)} */}
             <div className="py-1">
                 <div className=" mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -805,7 +812,10 @@ export default function Edit({
                                                 Select District First
                                             </option>
                                             {appointtehsils.map((tehsil) => (
-                                                <option value={tehsil.id}>
+                                                <option
+                                                    value={tehsil.id}
+                                                    key={tehsil.id}
+                                                >
                                                     {tehsil.title}
                                                 </option>
                                             ))}
@@ -868,11 +878,13 @@ export default function Edit({
                                             <option>
                                                 Select Union Council First
                                             </option>
-                                            {afacilities.map((facility) => (
-                                                <option value={facility.id}>
-                                                    {facility.title}
-                                                </option>
-                                            ))}
+                                            {appointedfacilities.map(
+                                                (facility) => (
+                                                    <option value={facility.id}>
+                                                        {facility.title}
+                                                    </option>
+                                                )
+                                            )}
                                         </SelectInput>
                                         <InputError
                                             message={errors.facility_id}
@@ -1055,7 +1067,7 @@ export default function Edit({
                                             }}
                                         >
                                             <option>Select Officer</option>
-                                            {officers.map((officer) => (
+                                            {cofficers.map((officer) => (
                                                 <option value={officer.id}>
                                                     {officer.name}
                                                 </option>
@@ -1094,10 +1106,40 @@ export default function Edit({
                                         />
                                     </div>
                                     {/* end catchment */}
+                                    {/* verififed start */}
+
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="verified"
+                                            value="Verified"
+                                        />
+                                        <SelectInput
+                                            id="verified"
+                                            name="verified"
+                                            value={data.verified}
+                                            className="mt-1 w-80"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "verified",
+                                                    e.target.value
+                                                )
+                                            }
+                                        >
+                                            <option>Select Status</option>
+
+                                            <option value="No">No</option>
+                                            <option value="Yes">Yes</option>
+                                        </SelectInput>
+                                        <InputError
+                                            message={errors.verified}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    {/* verified ends */}
 
                                     <div className="mt-9 text-right">
                                         <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
-                                            Add Employee
+                                            Update Employee
                                         </button>
                                         <Link
                                             href={route("employee.index")}

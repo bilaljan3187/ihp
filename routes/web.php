@@ -19,6 +19,7 @@ use App\Http\Controllers\FacilityTypeController;
 use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DocumentController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::get('tehsil-councils/{tehsil}',[EmployeeController::class,'councils'])->name('councils');
     Route::get('council-facilites/{council}',[EmployeeController::class,'facilities'])->name('facilities');
     Route::get('facility-employee/{facility}',[EmployeeController::class,'employees'])->name('employees');
+    Route::resource('document',DocumentController::class);
 });
 
 require __DIR__.'/auth.php';

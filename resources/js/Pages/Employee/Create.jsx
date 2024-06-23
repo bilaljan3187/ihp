@@ -231,7 +231,7 @@ export default function Create({
                             <form
                                 action=""
                                 onSubmit={onSubmit}
-                                className="p-4  bg-white dark:bg-gray-800 shadow sm:rounded-lg "
+                                className="p-4  bg-white dark:bg-gray-800 shadow sm:rounded-lg"
                             >
                                 <h1 className="font-bold underline">
                                     Personal Information

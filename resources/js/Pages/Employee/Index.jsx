@@ -205,7 +205,11 @@ export default function ({ auth, employees, queryParams = null, success }) {
                             <tbody>
                                 {employees.data.map((employee, i) => (
                                     <tr
-                                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 "
+                                        className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 ${
+                                            employee.verified === "Yes"
+                                                ? "bg-green-200"
+                                                : "bg-red-200"
+                                        }`}
                                         key={employee.id}
                                     >
                                         <td className="px-3 py-2">{i + 1}</td>
