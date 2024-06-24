@@ -75,6 +75,7 @@ export default function Authenticated({ user, header, children }) {
                                         {" "}
                                         Districts
                                     </NavLink>
+
                                     <NavLink
                                         href={route("tehsil.index")}
                                         active={route().current("tehsil.index")}
@@ -83,8 +84,10 @@ export default function Authenticated({ user, header, children }) {
                                         Tehsils
                                     </NavLink>
                                     <NavLink
-                                        href={route("uc.index")}
-                                        active={route().current("uc.index")}
+                                        href={route("unioncouncil.index")}
+                                        active={route().current(
+                                            "unioncouncil.index"
+                                        )}
                                     >
                                         {" "}
                                         UCs

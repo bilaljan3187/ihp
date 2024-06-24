@@ -4,14 +4,60 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function Create({ auth, districts, facilitytypes }) {
     const { data, setData, post, errors, reset, progress } = useForm({
         title: "",
-        district_id: "",
         facility_type: "",
+        district_id: "",
+        tehsil: "",
+        unioncouncil: "",
     });
+    const [appointtehsils, setAppointtehsils] = useState([]);
+    const [appointcouncils, setAppointcouncils] = useState([]);
+    const handleDistrictChange = async (e) => {
+        setAppointcouncils([]); // reset union council list
+        setAppointtehsils([]);
+        const districtId = e.target.value;
+        setData("district", districtId);
+        if (districtId) {
+            try {
+                const response = await axios.get(
+                    `/districts-tehsils/${districtId}`
+                );
+                setAppointtehsils(response.data);
+            } catch (error) {
+                console.error(
+                    "There was an error fetching the tehsils!",
+                    error
+                );
+            }
+        } else {
+            setAppointtehsils([]);
+        }
+    };
 
+    const handleTehsilChange = async (e) => {
+        setAppointcouncils([]); // reset union council list
+        const tehsilId = e.target.value;
+        setData("tehsil", tehsilId);
+        if (tehsilId) {
+            try {
+                const response = await axios.get(
+                    `/tehsil-councils/${tehsilId}`
+                );
+                setAppointcouncils(response.data);
+            } catch (error) {
+                console.error(
+                    "There was an error fetching the union councils!",
+                    error
+                );
+            }
+        } else {
+            setAppointcouncils([]);
+        }
+    };
     const onSubmit = (e) => {
         e.preventDefault();
         post(route("facility.store"));
@@ -36,9 +82,9 @@ export default function Create({ auth, districts, facilitytypes }) {
                             <form
                                 action=""
                                 onSubmit={onSubmit}
-                                className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
+                                className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-wrap"
                             >
-                                <div className="mt-4">
+                                <div className="mt-4 mr-3">
                                     <InputLabel
                                         htmlFor="facility_title"
                                         value="Facility Title"
@@ -48,7 +94,7 @@ export default function Create({ auth, districts, facilitytypes }) {
                                         type="text"
                                         name="title"
                                         value={data.title}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 w-80"
                                         isFocused={true}
                                         onChange={(e) =>
                                             setData("title", e.target.value)
@@ -59,42 +105,7 @@ export default function Create({ auth, districts, facilitytypes }) {
                                         className="mt-2"
                                     />
                                 </div>
-
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="district"
-                                        value="District"
-                                    />
-                                    <SelectInput
-                                        id="district_id"
-                                        type="text"
-                                        name="district_id"
-                                        value={data.district_id}
-                                        className="mt-1 block w-full"
-                                        onChange={(e) =>
-                                            setData(
-                                                "district_id",
-                                                e.target.value
-                                            )
-                                        }
-                                    >
-                                        <option>Select District</option>
-                                        {districts.map((district) => (
-                                            <option
-                                                key={district.key}
-                                                value={district.id}
-                                            >
-                                                {district.title}
-                                            </option>
-                                        ))}
-                                    </SelectInput>
-                                    <InputError
-                                        message={errors.district_id}
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                <div className="mt-4">
+                                <div className="mt-4 mr-3">
                                     <InputLabel
                                         htmlFor="facilitytype"
                                         value="Facility Type"
@@ -103,7 +114,7 @@ export default function Create({ auth, districts, facilitytypes }) {
                                         id="facilitytype"
                                         name="facility_type"
                                         value={data.facility_type}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 w-80"
                                         onChange={(e) =>
                                             setData(
                                                 "facility_type",
@@ -127,9 +138,97 @@ export default function Create({ auth, districts, facilitytypes }) {
                                     />
                                 </div>
 
+                                <div className="mt-4 mr-3">
+                                    <InputLabel
+                                        htmlFor="district"
+                                        value="District"
+                                    />
+                                    <SelectInput
+                                        id="district_id"
+                                        type="text"
+                                        name="district_id"
+                                        value={data.district_id}
+                                        className="mt-1 w-80"
+                                        onChange={handleDistrictChange}
+                                    >
+                                        <option>Select District</option>
+                                        {districts.map((district) => (
+                                            <option
+                                                key={district.key}
+                                                value={district.id}
+                                            >
+                                                {district.title}
+                                            </option>
+                                        ))}
+                                    </SelectInput>
+                                    <InputError
+                                        message={errors.district}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                {/* start  tehsil */}
+                                <div className="mt-4 mr-3">
+                                    <InputLabel
+                                        htmlFor="tehsil"
+                                        value="Tehsil "
+                                    />
+
+                                    <SelectInput
+                                        id="tehsil"
+                                        name="tehsil"
+                                        value={data.tehsil}
+                                        className="mt-1 w-80"
+                                        onChange={handleTehsilChange}
+                                    >
+                                        <option>Select District First</option>
+                                        {appointtehsils.map((tehsil) => (
+                                            <option value={tehsil.id}>
+                                                {tehsil.title}
+                                            </option>
+                                        ))}
+                                    </SelectInput>
+                                    <InputError
+                                        message={errors.tehsil}
+                                        className="mt-2"
+                                    />
+                                </div>
+                                {/* end  tehsil */}
+                                {/* start  union council */}
+                                <div className="mt-4 mr-3">
+                                    <InputLabel
+                                        htmlFor="unioncouncil"
+                                        value="Union Council"
+                                    />
+
+                                    <SelectInput
+                                        id="unioncouncil"
+                                        name="unioncouncil"
+                                        value={data.unioncouncil}
+                                        className="mt-1 w-80"
+                                        onChange={(e) => {
+                                            setData(
+                                                "unioncouncil",
+                                                e.target.value
+                                            );
+                                        }}
+                                    >
+                                        <option>Select Tehsil First</option>
+                                        {appointcouncils.map((council) => (
+                                            <option value={council.id}>
+                                                {council.title}
+                                            </option>
+                                        ))}
+                                    </SelectInput>
+                                    <InputError
+                                        message={errors.unioncouncil}
+                                        className="mt-2"
+                                    />
+                                </div>
+
                                 <div
                                     href={route("facility.index")}
-                                    className="mt-4 text-right"
+                                    className="mt-9 text-right"
                                 >
                                     <Link
                                         href={route("facility.index")}

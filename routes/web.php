@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('employeetype',EmployeeTypeController::class);
     Route::resource('district',DistrictController::class);
     Route::resource('tehsil',TehsilController::class);
-    Route::resource('uc',UnionCouncilController::class);
+    Route::resource('unioncouncil',UnionCouncilController::class);
     Route::get('users',[RegisteredUserController::class, 'index'])->name('users');
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);

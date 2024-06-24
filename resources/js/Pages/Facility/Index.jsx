@@ -174,7 +174,7 @@ export default function ({ auth, facility, queryParams = null, success }) {
                                             {facility.facility_type.title}
                                         </td>
                                         <td className="px-3 py-2">
-                                            {facility.district.title}
+                                            {/* {facility.district.title} */}
                                         </td>
                                         <td className="px-3 py-2">
                                             <Link

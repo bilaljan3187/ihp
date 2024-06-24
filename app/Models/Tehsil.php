@@ -11,7 +11,7 @@ class Tehsil extends Model
     protected $fillable = ['district_id','title','created_by','updated_by'];
 
     public function createdBy(){
-        return $this->belongsTo(User::class,'added_by','id');
+        return $this->belongsTo(User::class,'created_by','id');
     }
 
     public function updatedBy(){

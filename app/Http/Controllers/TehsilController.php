@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tehsil;
+use App\Models\District;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\TehsilResource;
+use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreTehsilRequest;
 use App\Http\Requests\UpdateTehsilRequest;
 
@@ -13,7 +17,20 @@ class TehsilController extends Controller
      */
     public function index()
     {
-        //
+
+        $query    = Tehsil::query();
+        $sortField = request("sort_field",'created_at');
+        $sortDirection = request("sort_direction","desc");
+        if(request('title')){
+            $query->where('title','like','%'.request('title').'%');
+        }
+        $tehsils = $query->orderBy($sortField,$sortDirection)->paginate(10)->onEachSide(1);
+// dd($tehsils);
+        return inertia('Tehsil/Index',[
+            'tehsils' => TehsilResource::collection($tehsils),
+            'queryParams' => request()->query() ?: null,
+            'success' => session('success')
+        ]);
     }
 
     /**
@@ -21,7 +38,10 @@ class TehsilController extends Controller
      */
     public function create()
     {
-        //
+        $districts  = District::all();
+        return inertia('Tehsil/Create',[
+                'districts' => $districts,
+        ]);
     }
 
     /**
@@ -29,7 +49,12 @@ class TehsilController extends Controller
      */
     public function store(StoreTehsilRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['created_by'] = Auth::user()->id;
+        $data['updated_by'] = Auth::user()->id;
+
+        Tehsil::create($data);
+        return to_route('tehsil.index')->with('success','Tehsil Added');
     }
 
     /**
@@ -45,7 +70,8 @@ class TehsilController extends Controller
      */
     public function edit(Tehsil $tehsil)
     {
-        //
+        $districts = District::all();
+        return inertia('Tehsil/Edit',['tehsil'=>$tehsil , 'districts'=> $districts]);
     }
 
     /**
@@ -53,7 +79,11 @@ class TehsilController extends Controller
      */
     public function update(UpdateTehsilRequest $request, Tehsil $tehsil)
     {
-        //
+        $data = $request->validated();
+        $data['updated_by'] = Auth::user()->id;
+        $tehsil->update($data);
+        return to_route('tehsil.index')->with('success','Tehsil Updated');
+
     }
 
     /**
@@ -61,6 +91,11 @@ class TehsilController extends Controller
      */
     public function destroy(Tehsil $tehsil)
     {
-        //
+        try{
+            $tehsil->delete();
+            return to_route('tehsil.index')->with('success','Tehsil deleted');
+        }catch(QueryException $e){
+            return to_route('tehsil.index')->with('success','Tehsil Can not be deleted as this Tehsil is used in other sections');
+        }
     }
 }

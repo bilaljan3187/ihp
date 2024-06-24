@@ -11,7 +11,7 @@ class UpdateUnionCouncilRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateUnionCouncilRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required',
+            'district_id' => 'required|integer',
+            'tehsil_id' => 'required|integer'
         ];
     }
 }

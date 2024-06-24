@@ -23,8 +23,11 @@ class StoreFacilityRequest extends FormRequest
     {
         return [
             'title'=>'required',
-            'district_id' => 'required',
-            'facility_type' => 'required'
+            'district' => 'required',
+            'facility_type' => 'required',
+            'district' => 'required',
+            'tehsil' => 'required',
+            'unioncouncil' => 'required'
         ];
     }
 }

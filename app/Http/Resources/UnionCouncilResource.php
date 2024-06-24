@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\District;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +22,11 @@ class UnionCouncilResource extends JsonResource
             'district' =>new DistrictResource($this->district),
             'tehsil' =>new TehsilResource($this->tehsil),
             'createdBy'=>new UserResource($this->createdBy),
-            'updatedBy'=>new UserResource($this->updatedBy)
+            'updatedBy'=>new UserResource($this->updatedBy),
+            'created_at' => (new Carbon($this->created_at))->format('Y-m-d'),
+            'district' => new DistrictResource($this->districtt),
+            'tehsil' => new TehsilResource($this->tehsill),
+
         ];
     }
 }
