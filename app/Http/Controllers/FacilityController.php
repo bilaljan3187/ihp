@@ -95,6 +95,7 @@ class FacilityController extends Controller
 
     }
 
+    // testing
     /**
      * Remove the specified resource from storage.
      */
