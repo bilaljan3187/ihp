@@ -4,6 +4,7 @@ import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
+import { HiMiniFingerPrint } from "react-icons/hi2";
 
 export default function ({ auth, employees, queryParams = null, success }) {
     queryParams = queryParams || {};
@@ -147,6 +148,10 @@ export default function ({ auth, employees, queryParams = null, success }) {
                                     <th
                                         scope="col"
                                         className="px-3 py-3 text-left"
+                                    ></th>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3 text-left"
                                     >
                                         Actions
                                     </th>
@@ -191,6 +196,7 @@ export default function ({ auth, employees, queryParams = null, success }) {
                                             }
                                         />
                                     </th>
+                                    <th scope="col" className="px-3 py-3"></th>
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th scope="col" className="px-3 py-3"></th>
@@ -258,6 +264,20 @@ export default function ({ auth, employees, queryParams = null, success }) {
                                                 {" "}
                                                 {employee.verified}
                                             </sapn>
+                                        </td>
+                                        <td className="px-3 py-2">
+                                            <Link
+                                                href={route(
+                                                    "employee.edit",
+                                                    employee.id
+                                                )}
+                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                                            >
+                                                <HiMiniFingerPrint
+                                                    size={24}
+                                                    color="red"
+                                                />
+                                            </Link>
                                         </td>
                                         <td className="px-3 py-2">
                                             <Link
