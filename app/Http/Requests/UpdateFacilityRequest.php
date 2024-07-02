@@ -22,9 +22,11 @@ class UpdateFacilityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'title'=>'required',
             'district_id' => 'required',
-            'facility_type' => 'required'
+            'facility_type' => 'required',
+            'tehsil' => 'required',
+            'union_council' => 'required'
         ];
     }
 }

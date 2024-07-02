@@ -19,6 +19,7 @@ use App\Http\Controllers\FacilityTypeController;
 use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\BiometricController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TehsilController;
 use App\Http\Controllers\UnionCouncilController;
@@ -92,6 +93,8 @@ Route::middleware('auth')->group(function () {
     Route::get('council-facilites/{council}',[EmployeeController::class,'facilities'])->name('facilities');
     Route::get('facility-employee/{facility}',[EmployeeController::class,'employees'])->name('employees');
     Route::resource('document',DocumentController::class);
+    Route::get('bio/{id}',[BiometricController::class,'index'])->name('biometric.index');
+    Route::post('bio',[BiometricController::class,'save'])->name('biometric.save');
 });
 
 require __DIR__.'/auth.php';

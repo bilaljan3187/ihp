@@ -9,7 +9,7 @@ class Facility extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title',	'facility_type','district_id',	'added_by',	'updated_by'];
+    protected $fillable = ['title',	'facility_type','district_id','tehsil','union_council',	'added_by',	'updated_by'];
 
     public function facilityType(){
         return $this->belongsTo(FacilityType::class,'facility_type','id');

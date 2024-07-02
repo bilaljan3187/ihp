@@ -9,6 +9,8 @@ use App\Http\Resources\DistrictResource;
 use App\Http\Resources\FacilityResource;
 use App\Models\District;
 use App\Models\FacilityType;
+use App\Models\Tehsil;
+use App\Models\UnionCouncil;
 use Illuminate\Support\Facades\Auth;
 
 class FacilityController extends Controller
@@ -75,11 +77,15 @@ class FacilityController extends Controller
     {
         $districts  = District::all();
         $facilitytypes = FacilityType::all();
+        $tehsils = Tehsil::where('district_id',$facility->district_id)->get();
+        $unioncouncil = UnionCouncil::where('tehsil_id',$facility->tehsil)->get();
 
         return inertia('Facility/Edit',[
             'facility' => $facility,
             'districts' => $districts,
-            'facilitytypes' => $facilitytypes
+            'facilitytypes' => $facilitytypes,
+            'tehsils'=>$tehsils,
+            'unioncouncils' => $unioncouncil
         ]);
 
     }
@@ -90,6 +96,7 @@ class FacilityController extends Controller
     public function update(UpdateFacilityRequest $request, Facility $facility)
     {
         $data = $request->validated();
+        $data['updated_by'] = Auth::user()->id;
         $facility->update($data);
         return to_route('facility.index')->with('success','Facility Updated');
 
@@ -107,6 +114,5 @@ class FacilityController extends Controller
           } catch (\Illuminate\Database\QueryException $e) {
             return to_route('facility.index')->with('success','Facility Can not be deleted as this facility is used in other sections');
           }
-
     }
 }

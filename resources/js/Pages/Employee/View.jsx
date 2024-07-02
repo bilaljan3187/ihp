@@ -68,6 +68,7 @@ export default function Edit({
         file: "",
         remarks: "",
         employee: employee.data.id,
+        biometric: employee.data.biometric,
     });
 
     const deleteDocument = (document) => {
@@ -100,12 +101,12 @@ export default function Edit({
             }
         >
             <Head title="Employees" />
-            {/* {JSON.stringify(documents)} */}
+            {/* {JSON.stringify(employee)} */}
             <div className="py-1">
                 <div className=" mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div
-                            className={`p-6 text-gray-900 dark:text-gray-100 bg-red-300 ${
+                            className={`p-6 text-gray-900 dark:text-gray-100 ${
                                 data.verified === "Yes"
                                     ? "bg-green-500"
                                     : "bg-red-500"
@@ -140,6 +141,7 @@ export default function Edit({
                                         />
                                     </div>
                                     {/* end name */}
+
                                     {/* start father name */}
                                     <div className="mt-4 mr-3">
                                         <InputLabel
@@ -1147,12 +1149,19 @@ export default function Edit({
                                         className="mt-2"
                                     />
                                 </div>
+
                                 <div className="mt-10 text-right ml-4">
                                     <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
                                         Add Document
                                     </button>
                                 </div>
                             </form>
+                            {/* start name */}
+                            <div className="mt-4 mr-3">
+                                <InputLabel value="Biometric" />
+                                <img src={data.biometric} />
+                            </div>
+                            {/* end name */}
                         </div>
                     </div>
                 </div>

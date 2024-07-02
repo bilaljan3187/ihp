@@ -25,9 +25,8 @@ class StoreFacilityRequest extends FormRequest
             'title'=>'required',
             'district' => 'required',
             'facility_type' => 'required',
-            'district' => 'required',
             'tehsil' => 'required',
-            'unioncouncil' => 'required'
+            'union_council' => 'required'
         ];
     }
 }

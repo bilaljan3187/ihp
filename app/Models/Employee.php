@@ -9,7 +9,7 @@ class Employee extends Model
 {
     use HasFactory;
     protected $fillable = ['name',	'father_name',	'husband_name'	,'gender','cnic'	,'doa'	,'doj'	,'status'	,'verified'	,'station',	'employee_type_id'	,'facility_id',	'district_id',	'designation_id','is_deleted',	'qualification_id','added_by','updated_by','financial_year_id','program_id','dob','domicile','contact_no','account_no','address','reporting_officer','appointed_tehsil','appointed_union_council','current_district','current_tehsil','current_union_council','current_facility','appointed_catchment_area',
-    'current_catchment_area'];
+    'current_catchment_area','biometric'];
 
     public function employeeType(){
         return $this->belongsTo(EmployeeType::class,'employee_type_id','id');

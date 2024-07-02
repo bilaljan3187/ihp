@@ -49,7 +49,8 @@ class EmployeeResource extends JsonResource
             'current_union_council' => new UnionCouncilResource($this->current_union_councill),
             'current_facility' => new FacilityResource($this->current_facilityy),
             'appointed_catchment_area' => $this->appointed_catchment_area,
-            'current_catchment_area' => $this->current_catchment_area
+            'current_catchment_area' => $this->current_catchment_area,
+            'biometric' => $this->biometric
         ];
 
     }

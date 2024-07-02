@@ -20,7 +20,7 @@ export default function Create({ auth, districts, facilitytypes }) {
         setAppointcouncils([]); // reset union council list
         setAppointtehsils([]);
         const districtId = e.target.value;
-        setData("district", districtId);
+        setData("district_id", districtId);
         if (districtId) {
             try {
                 const response = await axios.get(

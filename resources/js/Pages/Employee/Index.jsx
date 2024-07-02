@@ -266,18 +266,22 @@ export default function ({ auth, employees, queryParams = null, success }) {
                                             </sapn>
                                         </td>
                                         <td className="px-3 py-2">
-                                            <Link
+                                            <a
                                                 href={route(
-                                                    "employee.edit",
+                                                    "biometric.index",
                                                     employee.id
                                                 )}
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                                             >
                                                 <HiMiniFingerPrint
                                                     size={24}
-                                                    color="red"
+                                                    color={
+                                                        employee.biometric
+                                                            ? "green"
+                                                            : "red"
+                                                    }
                                                 />
-                                            </Link>
+                                            </a>
                                         </td>
                                         <td className="px-3 py-2">
                                             <Link
