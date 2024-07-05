@@ -1,0 +1,1 @@
+import{j as t}from"./app-CpIuLUT0.js";function o(e){return t.jsx("div",{...e,className:"flex items-center justify-center",children:t.jsx("div",{className:"text-center",children:t.jsx("img",{src:"https://ihp.gkp.pk/wp-content/uploads/2022/05/KP_logo.png",alt:"logo",className:"w-10 mx-auto"})})})}export{o as A};
