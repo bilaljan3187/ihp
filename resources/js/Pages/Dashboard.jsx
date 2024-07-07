@@ -38,7 +38,9 @@ export default function Dashboard({
             </div>
             <div className="flex justify-center bg-white p-7 m-2">
                 <Progress
-                    value={(verifiedEmployees / totalEmployees) * 100}
+                    value={Math.round(
+                        (verifiedEmployees / totalEmployees) * 100
+                    )}
                     district={"Over All Verifications"}
                 />
             </div>
@@ -47,10 +49,10 @@ export default function Dashboard({
                 {districtData.map((data, i) => (
                     <Progress
                         key={i}
-                        value={
+                        value={Math.round(
                             (data.verified_employees / data.total_employees) *
-                            100
-                        }
+                                100
+                        )}
                         district={data.district_name}
                     />
                 ))}

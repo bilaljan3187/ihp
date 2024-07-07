@@ -6,7 +6,14 @@ import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 import { HiMiniFingerPrint } from "react-icons/hi2";
 
-export default function ({ auth, employees, queryParams = null, success }) {
+export default function ({
+    auth,
+    employees,
+    queryParams = null,
+    success,
+    currentPage,
+    pageSize,
+}) {
     queryParams = queryParams || {};
     // console.log(queryParams.status)
     const searchFieldChanged = (name, value) => {
@@ -218,7 +225,11 @@ export default function ({ auth, employees, queryParams = null, success }) {
                                         }`}
                                         key={i}
                                     >
-                                        <td className="px-3 py-2">{i + 1}</td>
+                                        <td className="px-3 py-2">
+                                            {i +
+                                                (currentPage - 1) * pageSize +
+                                                1}
+                                        </td>
 
                                         <th className="px-3 py-2 hover:underline  text-nowrap text-left">
                                             <Link

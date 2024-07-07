@@ -41,10 +41,14 @@ class EmployeeController extends Controller
 
         $employees = $query->orderBy($sortField,$sortDirection)->paginate(10)->onEachSide(1);
 
+        dd(request()->input('page', 1));
+
         return inertia('Employee/Index',[
             'employees' => EmployeeResource::collection($employees),
             'queryParams' => request()->query() ?: null,
-            'success' => session('success')
+            'success' => session('success'),
+            'currentPage' => request()->input('page', 1), // Get current page from request
+            'pageSize' => 10, // Replace with your actual page size
         ]);
     }
 
