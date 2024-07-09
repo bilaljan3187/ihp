@@ -41,6 +41,9 @@ export default function Dashboard({
                     value={Math.round(
                         (verifiedEmployees / totalEmployees) * 100
                     )}
+                    verified_ratio={
+                        verifiedEmployees+" Out Of "+ totalEmployees 
+                    }
                     district={"Over All Verifications"}
                 />
             </div>
@@ -53,7 +56,11 @@ export default function Dashboard({
                             (data.verified_employees / data.total_employees) *
                                 100
                         )}
+                        verified_ratio={
+                            data.verified_employees+" Out Of "+data.total_employees
+                        }
                         district={data.district_name}
+                       
                     />
                 ))}
             </div>

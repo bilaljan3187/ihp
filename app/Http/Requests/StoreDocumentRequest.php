@@ -22,8 +22,7 @@ class StoreDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'document' => 'required',
-            'file' => 'required|file|mimes:pdf'
+            'files.*' => 'required|file|mimes:pdf',
         ];
     }
 }

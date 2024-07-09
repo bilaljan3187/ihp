@@ -32,24 +32,24 @@ class DocumentController extends Controller
      */
     public function store(StoreDocumentRequest $request)
     {
+       
         $rdata = $request->validated();
-
         $data['employee'] = $request->employee;
-        $data['file'] = $rdata['file'];
-        $data['document'] = $rdata['document'];
-        $data['remarks'] = $request->remarks;
-        $data['added_by'] = Auth::id();
-
-        $file = $data['file'] ?? null;
-        if($file){
-            $originalFileName = $file->getClientOriginalName();
-            $customFileName = "{$data['employee']}-".time()."-{$data['document']}-{$originalFileName}";
-            $path = $file->storeAs('documents', $customFileName, 'public');
-            $data['file'] = $path;
+        $files = $rdata['files'] ?? null;
+        //dd($files);
+        if($files){
+            foreach ($request->file('files') as $file) {
+                $data['document'] = $file->getClientOriginalName();
+                $customFileName = "{$data['employee']}-".time()."-{$data['document']}";
+                $path = $file->storeAs('documents', $customFileName, 'public');
+                $data['file'] = $path;
+                Document::create($data);
+            }
+            return to_route('employee.show',$data['employee'])->with('success',"Documents  Uploaded");
+        }else{
+            return to_route('employee.show',$data['employee'])->with('success',"Documents Uploading Failled");
         }
 
-        $document = Document::create($data);
-        return to_route('employee.show',$data['employee'])->with('success',$data['document']." is Uploaded");
     }
 
     /**

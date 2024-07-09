@@ -13,7 +13,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\UserTypeController;
-use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\DesignationController; 
 use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\FacilityTypeController;
 use App\Http\Controllers\FinancialYearController;

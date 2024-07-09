@@ -1,10 +1,11 @@
 import React from "react";
 
-function Progress({ value, district }) {
+function Progress({ value, district , verified_ratio  }) {
     return (
         <div className="flex justify-center m-3 border p-3">
             <div className="mt-9 mr-9 ">
                 <h1 className="font-bold">{district}</h1>
+                <h1 className="font-bold">{verified_ratio}</h1>
             </div>
             <div
                 className="radial-progress bg-primary text-primary-content border-4 border-primary"

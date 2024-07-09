@@ -65,7 +65,7 @@ export default function Edit({
         appointed_catchment_area: employee.data.appointed_catchment_area,
         current_catchment_area: employee.data.current_catchment_area,
         document: "",
-        file: "",
+        files: "",
         remarks: "",
         employee: employee.data.id,
         biometric: employee.data.biometric,
@@ -1040,20 +1040,20 @@ export default function Edit({
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        {document.document}
+                                        {document.document.replace(".pdf", "")}
                                     </a>
 
                                     <button
                                         className="ml-4 text-red-500"
-                                        onClick={(e) =>
+                                        onClick={(e) =>{
+                                            e.preventDefault();
                                             deleteDocument(document.id)
+                                        }
                                         }
                                     >
                                         Delete Document
                                     </button>
-                                    <span className="ml-4">
-                                        Remarks: {document.remarks}
-                                    </span>
+                                  
                                 </div>
                             ))}
                             {/* {JSON.stringify(documents)} */}
@@ -1064,91 +1064,23 @@ export default function Edit({
                                 onSubmit={onSubmit}
                                 className="p-1 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex"
                             >
-                                <div className="mt-4 mr-3">
-                                    <InputLabel
-                                        htmlFor="document"
-                                        value="Document Type"
-                                    />
-                                    <SelectInput
-                                        id="document"
-                                        name="document"
-                                        value={data.document}
-                                        className="mt-1 w-80"
-                                        onChange={(e) =>
-                                            setData("document", e.target.value)
-                                        }
-                                    >
-                                        <option>Select Document Type</option>
-                                        <option value="Appointment Order">
-                                            Appointment Order
-                                        </option>
-                                        <option value="Medical">Medical</option>
-                                        <option value="CNIC Front">
-                                            CNIC Front
-                                        </option>
-                                        <option value="CNIC Back">
-                                            CNIC Back
-                                        </option>
-                                        <option value="Domicile Front">
-                                            Domicile Front
-                                        </option>
-                                        <option value="Domicile Back">
-                                            Domicile Back
-                                        </option>
-                                        <option value="Highest Qualification Certificate">
-                                            Highest Qualification Certificate
-                                        </option>
-                                        <option value="Highest Qualification DMC">
-                                            Highest Qualification DMC
-                                        </option>
-                                        <option value="Other">Other</option>
-                                    </SelectInput>
-                                    <InputError
-                                        message={errors.document}
-                                        className="mt-2"
-                                    />
-                                </div>
+                                
                                 <div className="mt-4">
                                     <InputLabel
                                         htmlFor="file"
-                                        value="Select Document"
+                                        value="Select Documents"
                                     />
-                                    <TextInput
-                                        id="file"
-                                        type="file"
-                                        name="file"
-                                        className="mt-1 block w-full p-2"
-                                        onChange={(e) =>
-                                            setData("file", e.target.files[0])
-                                        }
-                                    />
+                                    <input type="file" multiple  onChange={(e) =>
+                                            setData("files", e.target.files)
+                                        } className="mt-1 block w-full p-2" />
+                                   
 
                                     <InputError
-                                        message={errors.file}
+                                        message={errors.files}
                                         className="mt-2"
                                     />
                                 </div>
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="remarks"
-                                        value="Remarks"
-                                    />
-                                    <TextInput
-                                        id="remarks"
-                                        type="text"
-                                        name="remarks"
-                                        className="mt-1 block w-full"
-                                        value={data.remarks}
-                                        onChange={(e) =>
-                                            setData("remarks", e.target.value)
-                                        }
-                                    />
-
-                                    <InputError
-                                        message={errors.remarks}
-                                        className="mt-2"
-                                    />
-                                </div>
+                                
 
                                 <div className="mt-10 text-right ml-4">
                                     <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
@@ -1159,7 +1091,7 @@ export default function Edit({
                             {/* start name */}
                             <div className="mt-4 mr-3">
                                 <InputLabel value="Biometric" />
-                                <img src={data.biometric} />
+                                <img src={data.biometric}  className="h-40"/>
                             </div>
                             {/* end name */}
                         </div>

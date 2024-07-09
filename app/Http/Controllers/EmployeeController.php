@@ -41,7 +41,7 @@ class EmployeeController extends Controller
 
         $employees = $query->orderBy($sortField,$sortDirection)->paginate(10)->onEachSide(1);
 
-        dd(request()->input('page', 1));
+        
 
         return inertia('Employee/Index',[
             'employees' => EmployeeResource::collection($employees),
