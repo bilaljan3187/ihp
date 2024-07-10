@@ -146,12 +146,16 @@ export default function ({
                                     >
                                         Status
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3 text-left"
+                                    <TableHeading
+                                        sort_field={queryParams.sort_field}
+                                        sort_direction={
+                                            queryParams.sort_direction
+                                        }
+                                        name="verified"
+                                        sortChanged={sortChanged}
                                     >
                                         Verified
-                                    </th>
+                                    </TableHeading>
                                     <th
                                         scope="col"
                                         className="px-3 py-3 text-left"
@@ -207,7 +211,25 @@ export default function ({
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th scope="col" className="px-3 py-3"></th>
-                                    <th scope="col" className="px-3 py-3"></th>
+                                    <th scope="col" className="px-3 py-3">
+                                        <SelectInput
+                                            className="w-full"
+                                            defaultValue={queryParams.verified}
+                                            onChange={(e) =>
+                                                searchFieldChanged(
+                                                    "verified",
+                                                    e.target.value
+                                                )
+                                            }
+                                            // onKeyPress={(e) =>
+                                            //     onKeyPress("verified", e)
+                                            // }
+                                        >
+                                            <option></option>
+                                            <option value={'Yes'}>Yes</option>
+                                            <option value={'No'}>No</option>
+                                        </SelectInput>
+                                    </th>
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th
                                         scope="col"
@@ -317,7 +339,7 @@ export default function ({
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={employees.meta.links}></Pagination>
+                        <Pagination links={employees.meta.links} params={queryParams}></Pagination>
                     </div>
                 </div>
             </div>

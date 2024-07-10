@@ -38,6 +38,9 @@ class EmployeeController extends Controller
         if(request('cnic')){
             $query->where('cnic','like','%'.request('cnic').'%');
         }
+        if(request('verified')){
+            $query->where('verified','like','%'.request('verified').'%');
+        }
 
         $employees = $query->orderBy($sortField,$sortDirection)->paginate(10)->onEachSide(1);
 
