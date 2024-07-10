@@ -207,6 +207,7 @@ export default function ({
                         </table>
                         <Pagination
                             links={qualifications.meta.links}
+                            params={queryParams}
                         ></Pagination>
                     </div>
                 </div>

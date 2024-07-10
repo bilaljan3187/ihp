@@ -203,6 +203,7 @@ export default function ({ auth, unioncouncils, queryParams = null, success }) {
                         </table>
                         <Pagination
                             links={unioncouncils.meta.links}
+                            params={queryParams}
                         ></Pagination>
                     </div>
                 </div>

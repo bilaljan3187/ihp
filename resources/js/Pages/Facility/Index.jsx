@@ -199,7 +199,10 @@ export default function ({ auth, facility, queryParams = null, success }) {
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={facility.meta.links}></Pagination>
+                        <Pagination
+                            links={facility.meta.links}
+                            params={queryParams}
+                        ></Pagination>
                     </div>
                 </div>
             </div>

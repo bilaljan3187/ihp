@@ -200,6 +200,7 @@ export default function ({ auth, facilitytypes, queryParams = null, success }) {
                         </table>
                         <Pagination
                             links={facilitytypes.meta.links}
+                            params={queryParams}
                         ></Pagination>
                     </div>
                 </div>

@@ -198,7 +198,10 @@ export default function ({ auth, programs, queryParams = null, success }) {
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={programs.meta.links}></Pagination>
+                        <Pagination
+                            links={programs.meta.links}
+                            params={queryParams}
+                        ></Pagination>
                     </div>
                 </div>
             </div>

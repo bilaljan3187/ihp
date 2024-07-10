@@ -202,6 +202,7 @@ export default function ({ auth, employeetypes, queryParams = null, success }) {
                         </table>
                         <Pagination
                             links={employeetypes.meta.links}
+                            params={queryParams}
                         ></Pagination>
                     </div>
                 </div>

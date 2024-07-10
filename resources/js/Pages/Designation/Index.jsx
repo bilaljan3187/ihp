@@ -213,6 +213,7 @@ export default function ({ auth, designations, queryParams = null, success }) {
                         </table>
                         <Pagination
                             links={designations.meta.links}
+                            params={queryParams}
                         ></Pagination>
                     </div>
                 </div>

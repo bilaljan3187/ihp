@@ -198,7 +198,10 @@ export default function ({ auth, tehsils, queryParams = null, success }) {
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={tehsils.meta.links}></Pagination>
+                        <Pagination
+                            links={tehsils.meta.links}
+                            params={queryParams}
+                        ></Pagination>
                     </div>
                 </div>
             </div>

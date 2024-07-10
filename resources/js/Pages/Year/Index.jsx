@@ -196,7 +196,10 @@ export default function ({ auth, years, queryParams = null, success }) {
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={years.meta.links}></Pagination>
+                        <Pagination
+                            links={years.meta.links}
+                            params={queryParams}
+                        ></Pagination>
                     </div>
                 </div>
             </div>

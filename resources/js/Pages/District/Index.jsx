@@ -198,7 +198,10 @@ export default function ({ auth, districts, queryParams = null, success }) {
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={districts.meta.links}></Pagination>
+                        <Pagination
+                            links={districts.meta.links}
+                            params={queryParams}
+                        ></Pagination>
                     </div>
                 </div>
             </div>
