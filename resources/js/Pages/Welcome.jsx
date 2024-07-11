@@ -1,41 +1,51 @@
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head } from "@inertiajs/react";
+import "../../css/bg.css";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
-        document.getElementById('screenshot-container')?.classList.add('!hidden');
-        document.getElementById('docs-card')?.classList.add('!row-span-1');
-        document.getElementById('docs-card-content')?.classList.add('!flex-row');
-        document.getElementById('background')?.classList.add('!hidden');
+        document
+            .getElementById("screenshot-container")
+            ?.classList.add("!hidden");
+        document.getElementById("docs-card")?.classList.add("!row-span-1");
+        document
+            .getElementById("docs-card-content")
+            ?.classList.add("!flex-row");
+        document.getElementById("background")?.classList.add("!hidden");
     };
 
     return (
         <>
             <Head title="Welcome" />
-            <div className="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+            <div className="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 background">
                 <img
                     id="background"
                     className="absolute -left-20 top-0 max-w-[877px]"
-                    src="https://laravel.com/assets/img/welcome/background.svg"
+                    // src="https://laravel.com/assets/img/welcome/background.svg"
+                    // src="images/care.png"
                 />
                 <div className="relative min-h-screen flex flex-col items-center  selection:bg-[#FF2D20] selection:text-white">
                     <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                         <header className="grid items-center grid-cols-2 gap-2 py-10 lg:grid-cols-3">
                             <div className="flex lg:justify-center lg:col-start-2">
-                            <img  src="https://ihp.gkp.pk/wp-content/uploads/2022/05/KP_logo.png" alt="logo" className="w-20 mx-auto" />
+                                <img
+                                    src="https://ihp.gkp.pk/wp-content/uploads/2022/05/KP_logo.png"
+                                    alt="logo"
+                                    className="w-20 mx-auto"
+                                />
                             </div>
                             <nav className="flex justify-end flex-1 -mx-3">
                                 {auth.user ? (
                                     <Link
-                                        href={route('dashboard')}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        href={route("dashboard")}
+                                        className="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
                                         Dashboard
                                     </Link>
                                 ) : (
                                     <>
                                         <Link
-                                            href={route('login')}
-                                            className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                            href={route("login")}
+                                            className="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
                                             Log in
                                         </Link>
@@ -70,13 +80,20 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     </div>
 
                                     <div className="relative flex items-center gap-6 lg:items-end">
-                                        <div id="docs-card-content" className="flex items-start gap-6 lg:flex-col">
+                                        <div
+                                            id="docs-card-content"
+                                            className="flex items-start gap-6 lg:flex-col"
+                                        >
                                             <div className="pt-3 sm:pt-5 lg:pt-0 text-center">
-                                                <h2 className="text-xl font-semibold text-black dark:text-white">
+                                                <h2 className="text-xl font-semibold text-blue-900 dark:text-white">
                                                     INTEGRATED HEALTH PROJECT
+                                                    VERIFICATION SYSTEM
                                                 </h2>
-                                                <p className="mt-4 text-sm/relaxed">
-                                                    Integration of Health Services delivery With Special Focus on MNCH, LHW and Nutrition Program
+                                                <p className="mt-4 text-sm/relaxed text-blue-900">
+                                                    Integration of Health
+                                                    Services delivery With
+                                                    Special Focus on MNCH, LHW
+                                                    and Nutrition Program
                                                 </p>
                                             </div>
                                         </div>
@@ -85,7 +102,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </div>
                         </main>
                         <footer className="py-16 text-sm text-center text-black dark:text-white/70">
-                           Developed by <b>Bilal Muhammad</b>
+                            Developed by <b>Bilal Muhammad</b>
                         </footer>
                     </div>
                 </div>

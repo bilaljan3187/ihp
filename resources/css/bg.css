@@ -1,0 +1,6 @@
+/* BackgroundImageComponent.css */
+.background {
+    background-image: url('/images/care1.png');
+    background-size: cover; /* make the image cover the whole container */
+    background-repeat: no-repeat; /* prevent the image from repeating */
+  }

@@ -68,7 +68,7 @@ export default function Edit({
         files: "",
         remarks: "",
         employee: employee.data.id,
-        biometric: employee.data.biometric,
+        biometricx: employee.data.biometric,
     });
 
     const deleteDocument = (document) => {
@@ -101,7 +101,7 @@ export default function Edit({
             }
         >
             <Head title="Employees" />
-            {/* {JSON.stringify(employee)} */}
+            {/* {JSON.stringify(employee.data)} */}
             <div className="py-1">
                 <div className=" mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -1045,15 +1045,13 @@ export default function Edit({
 
                                     <button
                                         className="ml-4 text-red-500"
-                                        onClick={(e) =>{
+                                        onClick={(e) => {
                                             e.preventDefault();
-                                            deleteDocument(document.id)
-                                        }
-                                        }
+                                            deleteDocument(document.id);
+                                        }}
                                     >
                                         Delete Document
                                     </button>
-                                  
                                 </div>
                             ))}
                             {/* {JSON.stringify(documents)} */}
@@ -1064,23 +1062,25 @@ export default function Edit({
                                 onSubmit={onSubmit}
                                 className="p-1 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex"
                             >
-                                
                                 <div className="mt-4">
                                     <InputLabel
                                         htmlFor="file"
                                         value="Select Documents"
                                     />
-                                    <input type="file" multiple  onChange={(e) =>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        onChange={(e) =>
                                             setData("files", e.target.files)
-                                        } className="mt-1 block w-full p-2" />
-                                   
+                                        }
+                                        className="mt-1 block w-full p-2"
+                                    />
 
                                     <InputError
                                         message={errors.files}
                                         className="mt-2"
                                     />
                                 </div>
-                                
 
                                 <div className="mt-10 text-right ml-4">
                                     <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
@@ -1091,7 +1091,30 @@ export default function Edit({
                             {/* start name */}
                             <div className="mt-4 mr-3">
                                 <InputLabel value="Biometric" />
-                                <img src={data.biometric}  className="h-40"/>
+                                {/* {JSON.stringify(employee.data.biometrics)} */}
+                                {employee.data.biometrics.length > 0 ? (
+                                    employee.data.biometrics.map(
+                                        (biometric) => (
+                                            <div key={biometric.id}>
+                                                <img
+                                                    src={biometric.biometric}
+                                                    alt="Biometric Data"
+                                                    className="h-40"
+                                                />
+                                                <p>
+                                                    Created By:{" "}
+                                                    {biometric.createdBy.name}
+                                                </p>
+                                            </div>
+                                        )
+                                    )
+                                ) : (
+                                    <img
+                                        src={data.biometricx}
+                                        alt="Biometric Data"
+                                        className="h-40"
+                                    />
+                                )}
                             </div>
                             {/* end name */}
                         </div>

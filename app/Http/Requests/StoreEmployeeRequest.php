@@ -38,7 +38,7 @@ class StoreEmployeeRequest extends FormRequest
             'program_id' => 'required',
             'domicile' => 'required',
             'dob' => 'required',
-            'account_no' => ['required','integer'],
+            'account_no' => ['required'],
             'contact_no' => 'required',
             'address' => 'required',
             'appointed_tehsil'=> "required",
@@ -47,7 +47,6 @@ class StoreEmployeeRequest extends FormRequest
             'current_tehsil'=>"required",
             'current_union_council'=>"required",
             'current_facility'=>"required",
-            'reporting_officer'=>"required",
             'appointed_catchment_area'=>"required",
             'current_catchment_area'=>"required"
          ];

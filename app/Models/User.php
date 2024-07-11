@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function userType(){
         return $this->belongsTo(UserType::class,'user_type','id');
     }
+
+    public function biometric(){
+        return $this->hasMany(Biometric::class,'created_by','id');
+    }
 }

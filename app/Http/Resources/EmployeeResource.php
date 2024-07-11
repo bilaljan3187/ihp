@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\District;
 use Illuminate\Http\Request;
+use App\Http\Resources\BiometricResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeResource extends JsonResource
@@ -15,6 +16,8 @@ class EmployeeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        // dd(new BiometricResource($this->biometricc));
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -50,8 +53,10 @@ class EmployeeResource extends JsonResource
             'current_facility' => new FacilityResource($this->current_facilityy),
             'appointed_catchment_area' => $this->appointed_catchment_area,
             'current_catchment_area' => $this->current_catchment_area,
-            'biometric' => $this->biometric
-        ];
+            'biometrics' =>  BiometricResource::collection($this->biometrics),
+            'is_biometric' => $this->is_biometric,
+            'biometric' =>  $this->biometric,
 
+        ];
     }
 }

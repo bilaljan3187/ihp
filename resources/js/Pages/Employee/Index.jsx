@@ -226,8 +226,8 @@ export default function ({
                                             // }
                                         >
                                             <option></option>
-                                            <option value={'Yes'}>Yes</option>
-                                            <option value={'No'}>No</option>
+                                            <option value={"Yes"}>Yes</option>
+                                            <option value={"No"}>No</option>
                                         </SelectInput>
                                     </th>
                                     <th scope="col" className="px-3 py-3"></th>
@@ -309,7 +309,8 @@ export default function ({
                                                 <HiMiniFingerPrint
                                                     size={24}
                                                     color={
-                                                        employee.biometric
+                                                        employee.is_biometric ==
+                                                        1
                                                             ? "green"
                                                             : "red"
                                                     }
@@ -339,7 +340,10 @@ export default function ({
                                 ))}
                             </tbody>
                         </table>
-                        <Pagination links={employees.meta.links} params={queryParams}></Pagination>
+                        <Pagination
+                            links={employees.meta.links}
+                            params={queryParams}
+                        ></Pagination>
                     </div>
                 </div>
             </div>
