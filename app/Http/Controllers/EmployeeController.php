@@ -42,12 +42,11 @@ class EmployeeController extends Controller
             $query->where('verified','like','%'.request('verified').'%');
         }
 
-        $employees = $query->orderBy($sortField,$sortDirection)->paginate(10)->onEachSide(1);
-
-        
-
+        $employees = $query->orderBy($sortField,$sortDirection)->with('program','district','designation','documents')->paginate(10)->onEachSide(1);
+// dd($employees);
         return inertia('Employee/Index',[
-            'employees' => EmployeeResource::collection($employees),
+            'employees' => collect($employees),
+
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
             'currentPage' => request()->input('page', 1), // Get current page from request
@@ -87,6 +86,7 @@ class EmployeeController extends Controller
         $data = $request->validated();
         $data['added_by'] = Auth::user()->id;
         $data['updated_by'] = Auth::user()->id;
+        $data['remarks'] = $request->remarks;
         $employee = Employee::create($data);
         return to_route('employee.index', ['cnic' => $employee->cnic])->with('success','Employee Added');
 
@@ -110,7 +110,7 @@ class EmployeeController extends Controller
         $ctehsils = Tehsil::where('district_id',$employee->current_district)->get();
         $cunion_councils = UnionCouncil::where('tehsil_id',$employee->current_tehsil)->get();
         $cfacilities  = Facility::where('union_council',$employee->current_union_council )->get();
-        $officers  = Employee::where('current_facility',$employee->current_facility )->get();
+        $officers  = Employee::where('designation_id',2 )->with('current_facilityy')->get();
         $documents = Document::where('employee',$employee->id)->get();
         $documents = json_decode($documents, true);
         $documents = array_map(function($document) {
@@ -160,7 +160,7 @@ class EmployeeController extends Controller
         $ctehsils = Tehsil::where('district_id',$employee->current_district)->get();
         $cunion_councils = UnionCouncil::where('tehsil_id',$employee->current_tehsil)->get();
         $cfacilities  = Facility::where('union_council',$employee->current_union_council )->get();
-        $officers  = Employee::where('current_facility',$employee->current_facility )->get();
+        $officers  = Employee::where(['designation_id'=>2,'current_district'=>$employee->current_district])->with('current_facilityy')->get();
 
 
         return inertia('Employee/Edit',[
@@ -190,6 +190,8 @@ class EmployeeController extends Controller
         $data = $request->validated();
         $data['husband_name'] = $request->husband_name;
         $data['updated_by'] = Auth::user()->id;
+        $data['remarks'] = $request->remarks;
+        // dd($data);
         $employee->update($data);
         return to_route('employee.index', ['cnic' => $employee->cnic])->with('success','Employee Updated');
 
@@ -221,7 +223,8 @@ class EmployeeController extends Controller
         return response()->json($facilities);
     }
     public function employees($facility){
-        $employees = Employee::where('current_facility', $facility)->get();
+        $employees = Employee::where(['designation_id'=>2,'current_district'=>$facility])->get();
         return response()->json($employees);
     }
+
 }

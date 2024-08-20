@@ -59,4 +59,7 @@ class User extends Authenticatable
     public function biometric(){
         return $this->hasMany(Biometric::class,'created_by','id');
     }
+    public function updated_byy(){
+        return $this->hasMany(Employee::class,'verified_byy','id');
+    }
 }

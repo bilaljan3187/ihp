@@ -54,6 +54,7 @@ export default function Create({
         reporting_officer: "",
         appointed_catchment_area: "",
         current_catchment_area: "",
+        remarks: "",
     });
 
     const handleDistrictChange = async (e) => {
@@ -189,10 +190,10 @@ export default function Create({
     const handleCurrentFacilityChange = async (e) => {
         const facilityId = e.target.value;
         setData("current_facility", facilityId);
-        if (facilityId) {
+        if (data.district_id) {
             try {
                 const response = await axios.get(
-                    `/facility-employee/${facilityId}`
+                    `/facility-employee/${data.current_district}`
                 );
                 setOfficers(response.data);
             } catch (error) {
@@ -1087,8 +1088,33 @@ export default function Create({
                                         />
                                     </div>
                                     {/* end catchment */}
+                                    {/* start remarks*/}
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="remarks"
+                                            value="Remarks"
+                                        />
+                                        <textarea
+                                            className="mt-1 w-80 h-40"
+                                            id="remarks"
+                                            name="remarks"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "remarks",
+                                                    e.target.value
+                                                )
+                                            }
+                                            value={data.remarks}
+                                        />
 
-                                    <div className="mt-9 text-right">
+                                        <InputError
+                                            message={errors.remarks}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    {/* end remarks */}
+
+                                    <div className="mt-9 text-right h-4">
                                         <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
                                             Add Employee
                                         </button>

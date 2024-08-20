@@ -27,4 +27,11 @@ class BiometricController extends Controller
         $employee->update(['is_biometric'=>1 , 'updated_by'=>auth()->user()->id]);
         return to_route('employee.index', ['cnic' => $employee->cnic])->with('success','Biometric Added');
     }
+    public function delete(Biometric $id){
+        $employee = $id->employee_id;
+        Employee::where('id',$employee)->update(['is_biometric'=>0]);
+        $id->delete();
+        return back()->with('success','Biometric Deleted');
+
+    }
 }

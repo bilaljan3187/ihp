@@ -63,6 +63,7 @@ export default function Edit({
         reporting_officer: employee.data.reporting_officer.id,
         appointed_catchment_area: employee.data.appointed_catchment_area,
         current_catchment_area: employee.data.current_catchment_area,
+        remarks: employee.data.remarks,
         _method: "PUT",
     });
 
@@ -70,7 +71,7 @@ export default function Edit({
         setAppointcouncils([]); // reset union council list
         setAppointedfacilities([]); // reset union facilities list
         setData("appointed_tehsil", null);
-        alert(appointed_tehsil);
+        // alert(appointed_tehsil);
         setData("appointed_union_council", null);
         setData("facility_id", null);
         const districtId = e.target.value;
@@ -206,7 +207,7 @@ export default function Edit({
         if (facilityId) {
             try {
                 const response = await axios.get(
-                    `/facility-employee/${facilityId}`
+                    `/facility-employee/${data.current_district}`
                 );
                 setCofficers(response.data);
             } catch (error) {
@@ -1106,6 +1107,31 @@ export default function Edit({
                                         />
                                     </div>
                                     {/* end catchment */}
+                                    {/* start remarks*/}
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="remarks"
+                                            value="Remarks"
+                                        />
+                                        <textarea
+                                            className="mt-1 w-80 h-40"
+                                            id="remarks"
+                                            name="remarks"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "remarks",
+                                                    e.target.value
+                                                )
+                                            }
+                                            value={data.remarks}
+                                        />
+
+                                        <InputError
+                                            message={errors.remarks}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    {/* end remarks */}
                                     {/* verififed start */}
 
                                     <div className="mt-4 mr-3">

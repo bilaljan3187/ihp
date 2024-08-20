@@ -5,6 +5,7 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 import { HiMiniFingerPrint } from "react-icons/hi2";
+import { FaRegFilePdf } from "react-icons/fa";
 
 export default function ({
     auth,
@@ -75,6 +76,7 @@ export default function ({
                             {success}
                         </div>
                     )}
+
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             Employees
@@ -156,6 +158,10 @@ export default function ({
                                     >
                                         Verified
                                     </TableHeading>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3 text-left"
+                                    ></th>
                                     <th
                                         scope="col"
                                         className="px-3 py-3 text-left"
@@ -318,6 +324,25 @@ export default function ({
                                             </a>
                                         </td>
                                         <td className="px-3 py-2">
+                                            <FaRegFilePdf
+                                                size={24}
+                                                color={
+                                                    employee.documents.length >
+                                                    0
+                                                        ? "green"
+                                                        : "red"
+                                                }
+                                            />
+                                            {/* <HiMiniFingerPrint
+                                                size={24}
+                                                color={
+                                                    employee.is_biometric == 1
+                                                        ? "green"
+                                                        : "red"
+                                                }
+                                            /> */}
+                                        </td>
+                                        <td className="px-3 py-2">
                                             <Link
                                                 href={route(
                                                     "employee.edit",
@@ -341,7 +366,7 @@ export default function ({
                             </tbody>
                         </table>
                         <Pagination
-                            links={employees.meta.links}
+                            links={employees.links}
                             params={queryParams}
                         ></Pagination>
                     </div>

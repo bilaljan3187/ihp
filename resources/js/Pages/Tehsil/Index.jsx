@@ -100,19 +100,19 @@ export default function ({ auth, tehsils, queryParams = null, success }) {
                                         scope="col"
                                         className="px-3 py-3 text-left"
                                     >
+                                        District
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3 text-left"
+                                    >
                                         Created By
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-3 py-3 text-left"
                                     >
-                                        Updated By
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3 text-left"
-                                    >
-                                        Created at
+                                        Created At
                                     </th>
                                     <th
                                         scope="col"
@@ -167,7 +167,7 @@ export default function ({ auth, tehsils, queryParams = null, success }) {
                                         </th>
 
                                         <td className="px-3 py-2">
-                                            {tehsil.createdBy.name}
+                                            {tehsil.district.title}
                                         </td>
                                         <td className="px-3 py-2">
                                             {tehsil.updatedBy.name}

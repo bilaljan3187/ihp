@@ -24,6 +24,7 @@ export default function Edit({
     cfacilities,
     officers,
     documents,
+    success,
 }) {
     const [appointedfacilities, setAppointedfacilities] = useState(afacilities);
     const [appointtehsils, setAppointtehsils] = useState(atehsils);
@@ -66,22 +67,24 @@ export default function Edit({
         current_catchment_area: employee.data.current_catchment_area,
         document: "",
         files: "",
-        remarks: "",
+
         employee: employee.data.id,
         biometricx: employee.data.biometric,
+        remarks: employee.data.remarks,
     });
 
     const deleteDocument = (document) => {
         router.delete(`/document/${document}`, {
             onBefore: () =>
                 confirm("Are you sure you want to delete this document?"),
-            preserveScroll: false,
+            preserveScroll: true,
         });
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route("document.index"));
+
+        post(route("document.index"), { preserveScroll: true });
     };
     return (
         <Authenticated
@@ -104,6 +107,11 @@ export default function Edit({
             {/* {JSON.stringify(employee.data)} */}
             <div className="py-1">
                 <div className=" mx-auto sm:px-6 lg:px-8">
+                    {success && (
+                        <div className="bg-emerald-500 py-2 px-4 text-white rounded mb-4">
+                            {success}
+                        </div>
+                    )}
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div
                             className={`p-6 text-gray-900 dark:text-gray-100 ${
@@ -989,6 +997,32 @@ export default function Edit({
                                         />
                                     </div>
                                     {/* end catchment */}
+                                    {/* start remarks*/}
+                                    <div className="mt-4 mr-3">
+                                        <InputLabel
+                                            htmlFor="remarks"
+                                            value="Remarks"
+                                        />
+                                        <textarea
+                                            disabled
+                                            className="mt-1 w-80 h-40"
+                                            id="remarks"
+                                            name="remarks"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "remarks",
+                                                    e.target.value
+                                                )
+                                            }
+                                            value={data.remarks}
+                                        />
+
+                                        <InputError
+                                            message={errors.remarks}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                    {/* end remarks */}
                                     {/* verififed start */}
 
                                     <div className="mt-4 mr-3">
@@ -1075,6 +1109,14 @@ export default function Edit({
                                         }
                                         className="mt-1 block w-full p-2"
                                     />
+                                    {progress && (
+                                        <progress
+                                            value={progress.percentage}
+                                            max="100"
+                                        >
+                                            {progress.percentage}%
+                                        </progress>
+                                    )}
 
                                     <InputError
                                         message={errors.files}
@@ -1090,31 +1132,43 @@ export default function Edit({
                             </form>
                             {/* start name */}
                             <div className="mt-4 mr-3">
-                                <InputLabel value="Biometric" />
-                                {/* {JSON.stringify(employee.data.biometrics)} */}
-                                {employee.data.biometrics.length > 0 ? (
-                                    employee.data.biometrics.map(
-                                        (biometric) => (
-                                            <div key={biometric.id}>
-                                                <img
-                                                    src={biometric.biometric}
-                                                    alt="Biometric Data"
-                                                    className="h-40"
-                                                />
-                                                <p>
-                                                    Created By:{" "}
-                                                    {biometric.createdBy.name}
-                                                </p>
-                                            </div>
-                                        )
-                                    )
-                                ) : (
-                                    <img
-                                        src={data.biometricx}
-                                        alt="Biometric Data"
-                                        className="h-40"
-                                    />
-                                )}
+                                <h3 className="font-bold">Biometric</h3>
+                                <hr />
+
+                                {employee.data.biometrics.length > 0
+                                    ? employee.data.biometrics.map(
+                                          (biometric) => (
+                                              <div
+                                                  key={biometric.id}
+                                                  className="py-5"
+                                              >
+                                                  <div className="flex">
+                                                      <img
+                                                          src={
+                                                              biometric.biometric
+                                                          }
+                                                          alt="Biometric Data"
+                                                          className="h-40"
+                                                      />
+                                                      <Link
+                                                          href={route(
+                                                              "bio_delete",
+                                                              biometric.id
+                                                          )}
+                                                          preserveScroll
+                                                          className="text-blue-500 text-lg hover:underline"
+                                                      >
+                                                          Delete Bio Metric
+                                                      </Link>
+                                                  </div>
+                                                  <p>
+                                                      Created By:{" "}
+                                                      {biometric.createdBy.name}
+                                                  </p>
+                                              </div>
+                                          )
+                                      )
+                                    : "Bio Metric not found"}
                             </div>
                             {/* end name */}
                         </div>

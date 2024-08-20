@@ -17,5 +17,10 @@ class Tehsil extends Model
     public function updatedBy(){
         return $this->belongsTo(User::class,'updated_by','id');
     }
+    public function district(){
+        return $this->belongsTo(District::class,'district_id','id');
+    }
+
+
 
 }

@@ -9,9 +9,12 @@ class Employee extends Model
 {
     use HasFactory;
     protected $fillable = ['name',	'father_name',	'husband_name'	,'gender','cnic'	,'doa'	,'doj'	,'status'	,'verified'	,'station',	'employee_type_id'	,'facility_id',	'district_id',	'designation_id','is_deleted',	'qualification_id','added_by','updated_by','financial_year_id','program_id','dob','domicile','contact_no','account_no','address','reporting_officer','appointed_tehsil','appointed_union_council','current_district','current_tehsil','current_union_council','current_facility','appointed_catchment_area',
-    'current_catchment_area','biometric','is_biometric'];
+    'current_catchment_area','biometric','is_biometric','remarks'];
 
     public function employeeType(){
+        return $this->belongsTo(EmployeeType::class,'employee_type_id','id');
+    }
+    public function employee_typee(){
         return $this->belongsTo(EmployeeType::class,'employee_type_id','id');
     }
     public function facility(){
@@ -36,16 +39,26 @@ class Employee extends Model
     public function updatedBy(){
         return $this->belongsTo(User::class,'updated_by','id');
     }
+    public function updated_byy(){
+        return $this->belongsTo(User::class,'updated_by','id');
+    }
 
     public function program(){
         return $this->belongsTo(Program::class,'program_id','id');
     }
 
-
+    //an lhw is rporte by one lhs
     public function reporting_officerr()
     {
         return $this->belongsTo(Employee::class, 'reporting_officer','id');
     }
+
+    // An LHS has many LHWs reporting to them
+    public function reportedEmployees()
+    {
+        return $this->hasMany(Employee::class, 'reporting_officer','id');
+    }
+
     public function domicilee()
     {
         return $this->belongsTo(District::class, 'domicile','id');
@@ -77,6 +90,9 @@ class Employee extends Model
 
     public function biometrics(){
         return $this->hasMany(Biometric::class,'employee_id','id');
+    }
+    public function documents(){
+        return $this->hasMany(Document::class,'employee','id');
     }
 
 }

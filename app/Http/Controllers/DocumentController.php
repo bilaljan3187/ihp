@@ -32,7 +32,7 @@ class DocumentController extends Controller
      */
     public function store(StoreDocumentRequest $request)
     {
-       
+
         $rdata = $request->validated();
         $data['employee'] = $request->employee;
         $files = $rdata['files'] ?? null;
@@ -40,7 +40,9 @@ class DocumentController extends Controller
         if($files){
             foreach ($request->file('files') as $file) {
                 $data['document'] = $file->getClientOriginalName();
+
                 $customFileName = "{$data['employee']}-".time()."-{$data['document']}";
+                $data['added_by'] = Auth::user()->id;
                 $path = $file->storeAs('documents', $customFileName, 'public');
                 $data['file'] = $path;
                 Document::create($data);

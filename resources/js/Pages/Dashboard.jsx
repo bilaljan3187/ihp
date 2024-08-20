@@ -42,7 +42,7 @@ export default function Dashboard({
                         (verifiedEmployees / totalEmployees) * 100
                     )}
                     verified_ratio={
-                        verifiedEmployees+" Out Of "+ totalEmployees 
+                        verifiedEmployees + " Out Of " + totalEmployees
                     }
                     district={"Over All Verifications"}
                 />
@@ -52,15 +52,27 @@ export default function Dashboard({
                 {districtData.map((data, i) => (
                     <Progress
                         key={i}
-                        value={Math.round(
-                            (data.verified_employees / data.total_employees) *
-                                100
-                        )}
+                        value={
+                            isNaN(
+                                Math.round(
+                                    (data.verified_employees /
+                                        data.total_employees) *
+                                        100
+                                )
+                            )
+                                ? 0
+                                : Math.round(
+                                      (data.verified_employees /
+                                          data.total_employees) *
+                                          100
+                                  )
+                        }
                         verified_ratio={
-                            data.verified_employees+" Out Of "+data.total_employees
+                            data.verified_employees +
+                            " Out Of " +
+                            data.total_employees
                         }
                         district={data.district_name}
-                       
                     />
                 ))}
             </div>

@@ -142,6 +142,13 @@ export default function Authenticated({ user, header, children }) {
                                         {" "}
                                         User types
                                     </NavLink>
+                                    <NavLink
+                                        href={route("report.index")}
+                                        active={route().current("report.index")}
+                                    >
+                                        {" "}
+                                        Reports
+                                    </NavLink>
                                 </div>
                             </div>
 
@@ -177,6 +184,11 @@ export default function Authenticated({ user, header, children }) {
                                                 href={route("profile.edit")}
                                             >
                                                 Profile
+                                            </Dropdown.Link>
+                                            <Dropdown.Link
+                                                href={route("att.index")}
+                                            >
+                                                Attendance
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route("logout")}
@@ -320,7 +332,14 @@ export default function Authenticated({ user, header, children }) {
                                 active={route().current("usertype.index")}
                             >
                                 {" "}
-                                User types
+                                User type
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route("report.index")}
+                                active={route().current("report.index")}
+                            >
+                                {" "}
+                                Reports
                             </ResponsiveNavLink>
                         </div>
 
@@ -368,6 +387,11 @@ export default function Authenticated({ user, header, children }) {
                             <main className="w-full pt-2 ">{children}</main>
                         </div>
                     </div>
+                </div>
+                <div className="text-center">
+                    System Developed By{" "}
+                    <span className="font-bold">Bilal Muhammad </span>(IT
+                    Assistant) Integrated Health Project
                 </div>
             </div>
         </>

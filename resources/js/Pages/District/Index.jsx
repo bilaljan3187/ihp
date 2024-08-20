@@ -60,6 +60,7 @@ export default function ({ auth, districts, queryParams = null, success }) {
             }
         >
             <Head title="Districts" />
+
             <div className="py-12">
                 <div className="mx-auto sm:px-6 lg:px-8">
                     {success && (
@@ -67,6 +68,7 @@ export default function ({ auth, districts, queryParams = null, success }) {
                             {success}
                         </div>
                     )}
+
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             Districts
@@ -102,12 +104,12 @@ export default function ({ auth, districts, queryParams = null, success }) {
                                     >
                                         Created By
                                     </th>
-                                    <th
+                                    {/* <th
                                         scope="col"
                                         className="px-3 py-3 text-left"
                                     >
                                         Updated By
-                                    </th>
+                                    </th> */}
                                     <th
                                         scope="col"
                                         className="px-3 py-3 text-left"
@@ -143,7 +145,7 @@ export default function ({ auth, districts, queryParams = null, success }) {
                                         />
                                     </th>
 
-                                    <th scope="col" className="px-3 py-3"></th>
+                                    {/* <th scope="col" className="px-3 py-3"></th> */}
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th scope="col" className="px-3 py-3"></th>
                                     <th
@@ -166,9 +168,9 @@ export default function ({ auth, districts, queryParams = null, success }) {
                                             {district.title}
                                         </th>
 
-                                        <td className="px-3 py-2">
+                                        {/* <td className="px-3 py-2">
                                             {district.createdBy.name}
-                                        </td>
+                                        </td> */}
                                         <td className="px-3 py-2">
                                             {district.updatedBy.name}
                                         </td>

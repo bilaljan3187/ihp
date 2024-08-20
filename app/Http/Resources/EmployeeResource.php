@@ -56,6 +56,7 @@ class EmployeeResource extends JsonResource
             'biometrics' =>  BiometricResource::collection($this->biometrics),
             'is_biometric' => $this->is_biometric,
             'biometric' =>  $this->biometric,
+            'remarks' => $this->remarks
 
         ];
     }
